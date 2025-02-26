@@ -109,3 +109,17 @@ detect_codename() {
     echo "${VERSION_CODENAME:-}"
   fi
 }
+
+confirm_not_pve_host() {
+  on_pve_host || return 0
+  msg_warn "${APP:-This script} is meant to run inside an LXC container, not on the Proxmox VE host."
+  if ! confirm "Continue anyway?"; then
+    msg_warn "Aborted."
+    exit 0
+  fi
+}
+
+random_alnum() {
+  local length="${1:-32}"
+  head -c 256 /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c "$length"
+}
