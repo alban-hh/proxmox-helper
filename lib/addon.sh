@@ -25,7 +25,7 @@ addon_run_update() {
     exit 1
   fi
   update
-  addon_has APP_SLUG || ensure_update_script
+  ensure_update_script
 }
 
 addon_run_uninstall() {
