@@ -1,34 +1,80 @@
-write_systemd_unit() {
+PXH_STATE_DIR="/usr/local/proxmox-helper"
+
+ensure_state_dir() {
+  mkdir -p "$PXH_STATE_DIR"
+  chmod 755 "$PXH_STATE_DIR"
+}
+
+install_systemd_service() {
   local name="$1"
   local content="$2"
   printf '%s\n' "$content" >"/etc/systemd/system/${name}.service"
   $STD systemctl daemon-reload
 }
 
-enable_service() {
+install_openrc_service() {
   local name="$1"
-  $STD systemctl enable --now "$name"
+  local content="$2"
+  printf '#!/sbin/openrc-run\n%s\n' "$content" >"/etc/init.d/${name}"
+  chmod +x "/etc/init.d/${name}"
 }
 
-restart_service() {
+enable_service() {
   local name="$1"
-  $STD systemctl restart "$name"
+  if is_alpine; then
+    $STD rc-update add "$name" default
+    $STD rc-service "$name" start
+  else
+    $STD systemctl enable --now "$name"
+  fi
+}
+
+start_service() {
+  local name="$1"
+  if is_alpine; then
+    $STD rc-service "$name" start
+  else
+    $STD systemctl start "$name"
+  fi
 }
 
 stop_service() {
   local name="$1"
-  systemctl stop "$name" 2>/dev/null || true
+  if is_alpine; then
+    rc-service "$name" stop &>/dev/null || true
+  else
+    systemctl stop "$name" &>/dev/null || true
+  fi
+}
+
+restart_service() {
+  local name="$1"
+  if is_alpine; then
+    $STD rc-service "$name" restart
+  else
+    $STD systemctl restart "$name"
+  fi
 }
 
 remove_service() {
   local name="$1"
-  systemctl disable --now "$name" 2>/dev/null || true
-  rm -f "/etc/systemd/system/${name}.service"
-  $STD systemctl daemon-reload
+  if is_alpine; then
+    rc-service "$name" stop &>/dev/null || true
+    rc-update del "$name" &>/dev/null || true
+    rm -f "/etc/init.d/${name}"
+  else
+    systemctl disable --now "$name" &>/dev/null || true
+    rm -f "/etc/systemd/system/${name}.service"
+    systemctl daemon-reload &>/dev/null || true
+  fi
 }
 
 service_is_active() {
-  systemctl is-active --quiet "$1"
+  if is_alpine; then
+    rc-service "$1" status &>/dev/null
+  else
+    systemctl is-active --quiet "$1"
+  fi
 }
 
 persist_usr_local_bin() {
@@ -53,6 +99,7 @@ ensure_update_script() {
 bash -c "\$(curl -fsSL ${PXH_REPO}/addons/${slug}.sh)" -- --update
 UPDATER
   chmod +x "$script"
+  persist_usr_local_bin
   msg_ok "Created ${script}"
 }
 
