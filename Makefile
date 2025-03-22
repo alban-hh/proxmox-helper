@@ -6,10 +6,10 @@ lint:
 	shellcheck $(SHELL_FILES)
 
 fmt:
-	shfmt -i 2 -ci -w $(SHELL_FILES)
+	shfmt -i 2 -w $(SHELL_FILES)
 
 check:
-	shfmt -i 2 -ci -d $(SHELL_FILES)
+	shfmt -i 2 -d $(SHELL_FILES)
 	shellcheck $(SHELL_FILES)
 
 list:
