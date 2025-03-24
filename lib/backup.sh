@@ -29,3 +29,19 @@ create_backup() {
   done
   msg_ok "Backed up data to ${store}"
 }
+
+restore_backup() {
+  local store="${BACKUP_DIR:-/opt/${APP_SLUG:-app}.backup}"
+  local manifest="${store}/.manifest"
+  local path
+  [[ -f "$manifest" ]] || return 0
+  msg_info "Restoring data"
+  while IFS= read -r path; do
+    [[ -e "${store}/files${path}" ]] || continue
+    mkdir -p "$(dirname "$path")"
+    rm -rf "$path"
+    cp -a "${store}/files${path}" "$path"
+  done <"$manifest"
+  rm -rf "$store"
+  msg_ok "Restored data"
+}
