@@ -38,7 +38,7 @@ deploy_binary() {
 configure() {
   local port="$1"
   local password="$2"
-  cd "$PXH_STATE_DIR"
+  cd "$PXH_STATE_DIR" || return 1
   $STD filebrowser config init -a 0.0.0.0 -p "$port" -d "$DB_PATH"
   $STD filebrowser config set -a 0.0.0.0 -p "$port" -d "$DB_PATH"
   if [[ -z "$password" ]]; then
