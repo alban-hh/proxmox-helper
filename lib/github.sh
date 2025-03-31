@@ -224,3 +224,10 @@ fetch_gh_release() {
   echo "$version" >"$(gh_version_file "$app")"
   msg_ok "Deployed ${app} ${version}"
 }
+
+gh_latest_tag() {
+  local repo="$1"
+  local json
+  json="$(gh_latest_release_json "$repo")" || return 22
+  jq -r '.tag_name // empty' <<<"$json"
+}
