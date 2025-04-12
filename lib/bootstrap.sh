@@ -1,5 +1,5 @@
 PXH_REPO="${PXH_REPO:-https://raw.githubusercontent.com/alban-hh/proxmox-helper/main}"
-PXH_LIBS=(colors output runtime network packages prompts github docker services users backup toolchains addon)
+PXH_LIBS=(colors output runtime network packages prompts github docker services users backup toolchains postgres addon)
 
 pxh_local_lib_dir() {
   local src="${BASH_SOURCE[0]:-}"
