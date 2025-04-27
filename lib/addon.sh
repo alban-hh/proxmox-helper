@@ -97,6 +97,12 @@ run_addon() {
 }
 
 run_tool() {
+  if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    echo "Usage: ${APP_SLUG}.sh"
+    echo
+    echo "Runs interactively on the Proxmox VE host."
+    exit 0
+  fi
   root_check
   header_info
   require_pve_host
