@@ -32,7 +32,7 @@ gh_strip_v() {
 }
 
 gh_version_file() {
-  echo "$HOME/.$(echo "${1,,}" | tr -d ' ')"
+  echo "$HOME/.$(tr -d ' ' <<<"$1" | tr '[:upper:]' '[:lower:]')"
 }
 
 gh_installed_version() {
