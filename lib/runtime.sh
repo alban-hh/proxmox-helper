@@ -121,5 +121,5 @@ confirm_not_pve_host() {
 
 random_alnum() {
   local length="${1:-32}"
-  head -c 256 /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c "$length"
+  LC_ALL=C tr -dc 'a-zA-Z0-9' </dev/urandom | head -c "$length"
 }
