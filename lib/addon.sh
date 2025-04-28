@@ -80,6 +80,17 @@ addon_usage() {
 run_addon() {
   local action="${1:-}"
   [[ "${type:-}" == "update" ]] && action="--update"
+  case "$action" in
+  -h | --help)
+    addon_usage
+    exit 0
+    ;;
+  "" | --install | install | --update | update | --uninstall | uninstall) ;;
+  *)
+    addon_usage
+    exit 64
+    ;;
+  esac
   root_check
   header_info
   addon_prepare
@@ -88,11 +99,6 @@ run_addon() {
   --install | install) addon_run_install ;;
   --update | update) addon_run_update ;;
   --uninstall | uninstall) addon_run_uninstall ;;
-  -h | --help) addon_usage ;;
-  *)
-    addon_usage
-    exit 64
-    ;;
   esac
 }
 
