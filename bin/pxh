@@ -10,9 +10,27 @@ Usage: pxh <command> [args]
 
 Commands:
   list                 Show available addons
-  run <addon> [flags]  Run an addon (flags: --install, --update, --uninstall)
+  run <addon> [flags]  Run an addon (flags: --install, --update, --uninstall, --yes, --verbose)
+  update <addon>       Update an installed addon
+  update-all           Update every addon that left an update script behind
+  version              Print the proxmox-helper version
   help                 Show this help
 USAGE
+}
+
+print_version() {
+  cat "$PXH_ROOT/VERSION"
+}
+
+update_all() {
+  local script found=0
+  for script in /usr/local/bin/update_*; do
+    [[ -x "$script" ]] || continue
+    found=1
+    echo "==> ${script##*/}"
+    "$script" --yes || echo "!! ${script##*/} failed" >&2
+  done
+  ((found)) || echo "No update scripts found in /usr/local/bin."
 }
 
 list_addons() {
@@ -40,6 +58,9 @@ main() {
   case "$command" in
   list) list_addons ;;
   run) run_addon_script "$@" ;;
+  update) run_addon_script "$1" --update ;;
+  update-all) update_all ;;
+  version) print_version ;;
   help | -h | --help) usage ;;
   *)
     usage
