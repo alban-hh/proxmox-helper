@@ -1,6 +1,14 @@
+assume_yes() {
+  [[ "${PXH_ASSUME_YES:-}" == "1" ]]
+}
+
 confirm() {
   local question="$1"
   local answer
+  if assume_yes; then
+    echo "${TAB}${question} (auto-yes)"
+    return 0
+  fi
   echo -n "${TAB}${question} (y/N): "
   read -r answer
   [[ "${answer,,}" =~ ^(y|yes)$ ]]
@@ -10,6 +18,10 @@ ask() {
   local question="$1"
   local default="${2:-}"
   local answer
+  if assume_yes; then
+    echo "$default"
+    return 0
+  fi
   if [[ -n "$default" ]]; then
     echo -n "${TAB}${question} [${default}]: "
   else
