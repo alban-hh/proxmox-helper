@@ -72,25 +72,46 @@ addon_interactive() {
 }
 
 addon_usage() {
-  echo "Usage: ${APP_SLUG}.sh [--install | --update | --uninstall]"
+  echo "Usage: ${APP_SLUG}.sh [--install | --update | --uninstall] [--yes] [--verbose]"
   echo
-  echo "Without arguments the script runs interactively."
+  echo "  --install     Install without the interactive menu"
+  echo "  --update      Update an existing installation"
+  echo "  --uninstall   Remove the installation"
+  echo "  --yes         Accept defaults and confirmations"
+  echo "  --verbose     Show command output instead of spinners"
+  echo
+  echo "Without an action the script runs interactively."
+}
+
+parse_addon_flags() {
+  ADDON_ACTION=""
+  while (($# > 0)); do
+    case "$1" in
+    -y | --yes) export PXH_ASSUME_YES=1 ;;
+    -v | --verbose)
+      export VERBOSE=yes
+      set_std_mode
+      ;;
+    -h | --help)
+      addon_usage
+      exit 0
+      ;;
+    --install | install | --update | update | --uninstall | uninstall) ADDON_ACTION="$1" ;;
+    *)
+      addon_usage
+      exit 64
+      ;;
+    esac
+    shift
+  done
+  [[ "${type:-}" == "update" ]] && ADDON_ACTION="--update"
+  return 0
 }
 
 run_addon() {
-  local action="${1:-}"
-  [[ "${type:-}" == "update" ]] && action="--update"
-  case "$action" in
-  -h | --help)
-    addon_usage
-    exit 0
-    ;;
-  "" | --install | install | --update | update | --uninstall | uninstall) ;;
-  *)
-    addon_usage
-    exit 64
-    ;;
-  esac
+  local action
+  parse_addon_flags "$@"
+  action="$ADDON_ACTION"
   root_check
   header_info
   addon_prepare
