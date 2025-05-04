@@ -30,12 +30,23 @@ explain_exit_code() {
   7) echo "Failed to connect to host" ;;
   22) echo "HTTP error returned by server" ;;
   28) echo "Network operation timed out" ;;
+  64) echo "Invalid arguments" ;;
+  65) echo "Invalid data or unsupported format" ;;
   100) echo "Package manager error" ;;
   104) echo "Not running as root" ;;
   106) echo "Unsupported architecture" ;;
+  112) echo "Invalid menu selection" ;;
+  115) echo "Download failed" ;;
+  119) echo "No suitable storage found" ;;
+  150) echo "Service failed to start" ;;
   232) echo "Must run on the Proxmox VE host" ;;
+  233) echo "Application is not installed" ;;
   237) echo "Docker is not available" ;;
   238) echo "Unsupported operating system" ;;
+  250) echo "No release found upstream" ;;
+  251) echo "Archive extraction failed" ;;
+  252) echo "No matching release asset" ;;
+  254) echo "Cancelled by user" ;;
   *) echo "Unknown error" ;;
   esac
 }
