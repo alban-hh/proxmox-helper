@@ -96,7 +96,7 @@ ensure_update_script() {
   msg_info "Creating update script"
   cat >"$script" <<UPDATER
 #!/usr/bin/env bash
-bash -c "\$(curl -fsSL ${PXH_REPO}/addons/${slug}.sh)" -- --update
+bash -c "\$(curl -fsSL ${PXH_REPO}/addons/${slug}.sh)" -- --update "\$@"
 UPDATER
   chmod +x "$script"
   persist_usr_local_bin
