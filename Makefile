@@ -1,4 +1,4 @@
-SHELL_FILES := $(wildcard lib/*.sh addons/*.sh tests/*.sh scripts/*.sh templates/*.sh) bin/pxh
+SHELL_FILES := $(wildcard lib/*.sh addons/*.sh tests/*.sh scripts/*.sh templates/*.sh) bin/pxh install.sh
 
 .PHONY: lint fmt check test list new-addon
 
