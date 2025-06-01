@@ -22,7 +22,7 @@ is_installed() {
 }
 
 describe() {
-  echo -e "${TAB}  - Node.js 22"
+  echo -e "${TAB}  - Node.js 24"
   echo -e "${TAB}  - Immich Public Proxy built from source in ${INSTALL_PATH}"
 }
 
@@ -81,7 +81,7 @@ WantedBy=multi-user.target"
 
 install() {
   local immich_host
-  NODE_VERSION="22" setup_nodejs
+  NODE_VERSION="24" setup_nodejs
   deploy_release
   build_app
 
@@ -107,7 +107,7 @@ update() {
   msg_info "Updating ${APP}"
   stop_service "$SERVICE_NAME"
   create_backup "${APP_PATH}/.env" "${APP_PATH}/config.json"
-  NODE_VERSION="22" setup_nodejs
+  NODE_VERSION="24" setup_nodejs
   CLEAN_INSTALL=1 deploy_release
   restore_backup
   build_app
