@@ -62,3 +62,19 @@ is not.
 
 Each runs on Debian, Ubuntu and Alpine and writes the matching systemd or
 OpenRC service.
+
+### Monitoring and metrics
+
+| Script | What you get | Port |
+| --- | --- | --- |
+| `netdata` | Netdata agent on the Proxmox host itself | 19999 |
+| `glances` | Glances with the web UI in a uv-managed venv | 61208 |
+| `jellystat` | Jellystat built from source with PostgreSQL 17 | 3000 |
+| `actual-budget-prometheus-exporter` | Prometheus exporter for Actual Budget | 3001 |
+| `nextcloud-exporter` | Prometheus exporter for Nextcloud | 9205 |
+| `pihole-exporter` | Prometheus exporter for Pi-hole, built with Go | 9617 |
+| `prometheus-paperless-ngx-exporter` | Prometheus exporter for Paperless-ngx | 8081 |
+| `qbittorrent-exporter` | Prometheus exporter for qBittorrent, built with Go | 8090 |
+
+The exporters ask for the target URL and credentials once and store them in
+an env file with mode 600.
