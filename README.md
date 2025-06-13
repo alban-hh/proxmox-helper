@@ -50,3 +50,14 @@ tool is already there, and offers install, update or remove. Pass
 
 All of these expect Docker already present and offer to install it when it
 is not.
+
+### Files and sharing
+
+| Script | What you get | Port |
+| --- | --- | --- |
+| `filebrowser` | FileBrowser with a generated admin password | 8080 |
+| `filebrowser-quantum` | FileBrowser Quantum with ffmpeg previews, replaces a classic install if found | 8080 |
+| `copyparty` | Copyparty under its own user with thumbnails | 3923 |
+
+Each runs on Debian, Ubuntu and Alpine and writes the matching systemd or
+OpenRC service.
