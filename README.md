@@ -78,3 +78,15 @@ OpenRC service.
 
 The exporters ask for the target URL and credentials once and store them in
 an env file with mode 600.
+
+### Networking and security
+
+| Script | What you get | Runs on |
+| --- | --- | --- |
+| `tailscale` | Adds Tailscale to an existing container, including the TUN device | host |
+| `netbird` | Adds NetBird to an existing Debian or Ubuntu container | host |
+| `crowdsec` | CrowdSec agent plus the iptables bouncer | container |
+| `adguardhome-sync` | Keeps a replica AdGuard Home in step with the origin | container |
+
+The two host tools pick the container from a list and tag it afterwards so
+you can see at a glance which containers carry a VPN client.
