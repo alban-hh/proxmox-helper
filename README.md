@@ -34,3 +34,19 @@ Docker Compose shortcuts, and a small runner that turns `is_installed`,
 Run an addon with no arguments and it looks at the box, tells you whether the
 tool is already there, and offers install, update or remove. Pass
 `--install`, `--update` or `--uninstall` to skip the menu.
+
+## Addons
+
+### Containers and Docker
+
+| Script | What you get | Port |
+| --- | --- | --- |
+| `portainer` | Portainer CE via Compose, handles standalone installs too | 9443 |
+| `dockge` | Dockge with a stacks directory in `/opt/stacks` | 5001 |
+| `komodo` | Komodo core with MongoDB or FerretDB | 9120 |
+| `coolify` | Coolify through the upstream installer | 8000 |
+| `dokploy` | Dokploy through the upstream installer | 3000 |
+| `runtipi` | Runtipi through the upstream installer | 80 |
+
+All of these expect Docker already present and offer to install it when it
+is not.
