@@ -129,3 +129,18 @@ the repo installed you can also run `pxh update portainer` or
 
 Version checks go through the GitHub API. If you hit the rate limit, export
 `GITHUB_TOKEN` before running the script.
+
+## Development
+
+```bash
+git clone https://github.com/alban-hh/proxmox-helper.git
+cd proxmox-helper
+make check
+make test
+make new-addon SLUG=my-tool NAME="My Tool"
+```
+
+`make check` runs shfmt and shellcheck, `make test` runs the smoke tests in
+`tests/smoke.sh`. The library is documented in `docs/library.md` and the
+addon contract in `docs/writing-addons.md`. Pull requests welcome; see
+`CONTRIBUTING.md` for the few rules there are.
