@@ -122,3 +122,13 @@ handy in cloud-init or `pct exec` one-liners:
 ```bash
 pct exec 105 -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/alban-hh/proxmox-helper/main/addons/dockge.sh)" -- --install --yes
 ```
+
+## Updating
+
+Addons that support updates drop an `update_<name>` script into
+`/usr/local/bin` on install, so `update_portainer` is enough later on. With
+the repo installed you can also run `pxh update portainer` or
+`pxh update-all` to walk through everything that has an update script.
+
+Version checks go through the GitHub API. If you hit the rate limit, export
+`GITHUB_TOKEN` before running the script.
