@@ -89,3 +89,15 @@ an env file with mode 600.
 
 The two host tools pick the container from a list and tag it afterwards so
 you can see at a glance which containers carry a VPN client.
+
+### Admin and developer tools
+
+| Script | What you get | Port |
+| --- | --- | --- |
+| `webmin` | Webmin from the latest release | 10000 |
+| `phpmyadmin` | phpMyAdmin behind Apache (Debian) or Lighttpd (Alpine) | 80 |
+| `coder-code-server` | VS Code in the browser | 8680 |
+| `olivetin` | OliveTin action runner | 1337 |
+| `homebrew` | Linuxbrew for the first regular user on the box | - |
+| `immich-public-proxy` | Public sharing proxy for a local Immich | 3000 |
+| `all-templates` | Creates a plain container from any template Proxmox offers (host) | - |
