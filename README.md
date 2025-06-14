@@ -101,3 +101,21 @@ you can see at a glance which containers carry a VPN client.
 | `homebrew` | Linuxbrew for the first regular user on the box | - |
 | `immich-public-proxy` | Public sharing proxy for a local Immich | 3000 |
 | `all-templates` | Creates a plain container from any template Proxmox offers (host) | - |
+
+## Flags
+
+Every addon accepts the same flags:
+
+| Flag | Effect |
+| --- | --- |
+| `--install`, `--update`, `--uninstall` | Skip the menu and do that one thing |
+| `--yes` | Accept every confirmation and default answer |
+| `--verbose` | Print command output instead of a spinner |
+| `--help` | Show usage without needing root |
+
+`--yes` also works through the environment as `PXH_ASSUME_YES=1`, which is
+handy in cloud-init or `pct exec` one-liners:
+
+```bash
+pct exec 105 -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/alban-hh/proxmox-helper/main/addons/dockge.sh)" -- --install --yes
+```
