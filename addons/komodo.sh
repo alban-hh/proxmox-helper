@@ -36,6 +36,12 @@ find_compose_file() {
     msg_error "No compose file found in ${INSTALL_PATH}."
     exit 233
   fi
+  case "$(basename "$COMPOSE_FILE")" in
+  sqlite.compose.yaml | postgres.compose.yaml)
+    msg_error "This Komodo setup uses SQLite or PostgreSQL, which upstream dropped in v1.18. Migrate to MongoDB or FerretDB first."
+    exit 238
+    ;;
+  esac
 }
 
 choose_database() {
