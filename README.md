@@ -151,3 +151,8 @@ make new-addon SLUG=my-tool NAME="My Tool"
 `tests/smoke.sh`. The library is documented in `docs/library.md` and the
 addon contract in `docs/writing-addons.md`. Pull requests welcome; see
 `CONTRIBUTING.md` for the few rules there are.
+
+## License
+
+MIT. Do what you like with it; just do not blame me if a script eats a
+container. Test on something disposable first.
