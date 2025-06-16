@@ -1,5 +1,9 @@
 # proxmox-helper
 
+[![lint](https://github.com/alban-hh/proxmox-helper/actions/workflows/lint.yml/badge.svg)](https://github.com/alban-hh/proxmox-helper/actions/workflows/lint.yml)
+![shell](https://img.shields.io/badge/shell-bash-4EAA25)
+![license](https://img.shields.io/badge/license-MIT-blue)
+
 Bash scripts I use to bolt tools onto my Proxmox LXC containers without
 retyping the same twenty commands every time. Each script installs, updates
 or removes one tool, asks the minimum number of questions, and prints the
