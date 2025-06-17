@@ -51,7 +51,7 @@ ensure_docker() {
 
 compose_up() {
   local dir="$1"
-  (cd "$dir" && $STD docker compose up -d)
+  (cd "$dir" && $STD docker compose up -d --remove-orphans)
 }
 
 compose_pull() {
