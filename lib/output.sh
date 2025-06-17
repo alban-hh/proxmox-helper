@@ -24,10 +24,16 @@ is_verbose() {
   [[ "${VERBOSE:-no}" == "yes" ]]
 }
 
+log_line() {
+  local logfile="${PXH_LOG:-/tmp/proxmox-helper.log}"
+  printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$1" >>"$logfile" 2>/dev/null || true
+}
+
 msg_info() {
   local msg="$1"
   [[ -z "$msg" ]] && return 0
   stop_spinner
+  log_line "[INFO] $msg"
   PXH_SPINNER_MSG="$msg"
   if is_verbose || [[ ! -t 2 ]]; then
     printf "\r\033[2K%s%s\n" "$HOURGLASS" "${YW}${msg}${CL}" >&2
@@ -40,16 +46,19 @@ msg_info() {
 
 msg_ok() {
   stop_spinner
+  log_line "[OK] $1"
   echo -e "${CM}${GN}$1${CL}"
 }
 
 msg_error() {
   stop_spinner
+  log_line "[ERROR] $1"
   echo -e "${BFR}${CROSS}${RD}$1${CL}" >&2
 }
 
 msg_warn() {
   stop_spinner
+  log_line "[WARN] $1"
   echo -e "${BFR}${INFO}${YWB}$1${CL}" >&2
 }
 
