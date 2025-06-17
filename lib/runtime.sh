@@ -62,6 +62,7 @@ error_handler() {
     echo -e "${RD}last log lines from ${PXH_FAILED_LOG}:${CL}" >&2
     tail -n 20 "$PXH_FAILED_LOG" >&2
   fi
+  is_verbose || echo -e "${YW}Re-run with --verbose to see full command output.${CL}" >&2
   exit "$rc"
 }
 
