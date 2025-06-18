@@ -57,6 +57,16 @@ check_help_output() {
   pass "all addons answer --help"
 }
 
+check_readme_coverage() {
+  local file slug
+  for file in "$ROOT"/addons/*.sh; do
+    slug="${file##*/}"
+    slug="${slug%.sh}"
+    grep -q "^| \`${slug}\` |" "$ROOT/README.md" || fail "${slug} is missing from the README tables"
+  done
+  pass "every addon is listed in the README"
+}
+
 check_no_comments() {
   local hits
   hits="$(grep -rnE '^\s*#[^!]' "$ROOT"/lib "$ROOT"/addons "$ROOT"/bin | grep -v 'shellcheck' || true)"
@@ -72,6 +82,7 @@ check_library_loads
 check_addon_syntax
 check_addon_contract
 check_help_output
+check_readme_coverage
 check_no_comments
 
 if ((FAILURES > 0)); then
