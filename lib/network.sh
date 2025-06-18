@@ -27,8 +27,12 @@ get_local_ip() {
 
 check_internet() {
   if ! getent hosts github.com &>/dev/null; then
-    msg_error "No internet connectivity (DNS lookup for github.com failed)."
+    msg_error "DNS lookup for github.com failed. Check /etc/resolv.conf."
     exit 6
+  fi
+  if ! curl -fsSI --connect-timeout 10 https://github.com -o /dev/null; then
+    msg_error "github.com is not reachable over HTTPS."
+    exit 7
   fi
 }
 
