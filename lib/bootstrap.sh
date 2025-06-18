@@ -8,9 +8,16 @@ pxh_local_lib_dir() {
   fi
 }
 
+pxh_require_curl() {
+  command -v curl &>/dev/null && return 0
+  echo "curl is required to fetch the proxmox-helper library." >&2
+  exit 1
+}
+
 pxh_load_libs() {
   local dir lib
   dir="$(pxh_local_lib_dir)"
+  [[ -n "$dir" ]] || pxh_require_curl
   for lib in "${PXH_LIBS[@]}"; do
     if [[ -n "$dir" && -f "${dir}/${lib}.sh" ]]; then
       . "${dir}/${lib}.sh"
