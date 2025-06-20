@@ -1,6 +1,14 @@
 SHELL_FILES := $(wildcard lib/*.sh addons/*.sh tests/*.sh scripts/*.sh templates/*.sh) bin/pxh install.sh
 
-.PHONY: lint fmt check test list new-addon
+.PHONY: help lint fmt check test list new-addon
+
+help:
+	@echo "make lint       run shellcheck"
+	@echo "make fmt        format with shfmt"
+	@echo "make check      formatting diff plus shellcheck"
+	@echo "make test       smoke tests"
+	@echo "make list       list addons"
+	@echo "make new-addon  SLUG=name NAME=\"Display Name\""
 
 lint:
 	shellcheck $(SHELL_FILES)
