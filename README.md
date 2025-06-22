@@ -133,6 +133,8 @@ Addons that support updates drop an `update_<name>` script into
 `/usr/local/bin` on install, so `update_portainer` is enough later on. With
 the repo installed you can also run `pxh update portainer` or
 `pxh update-all` to walk through everything that has an update script.
+`pxh doctor` shows what the scripts would detect on the current machine,
+which is the first thing to check when something behaves oddly.
 
 Version checks go through the GitHub API. If you hit the rate limit, export
 `GITHUB_TOKEN` before running the script.
