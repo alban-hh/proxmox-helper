@@ -13,6 +13,7 @@ Commands:
   run <addon> [flags]  Run an addon (flags: --install, --update, --uninstall, --yes, --verbose)
   update <addon>       Update an installed addon
   update-all           Update every addon that left an update script behind
+  doctor               Show what the scripts would detect on this machine
   version              Print the proxmox-helper version
   help                 Show this help
 USAGE
@@ -20,6 +21,24 @@ USAGE
 
 print_version() {
   cat "$PXH_ROOT/VERSION"
+}
+
+doctor() {
+  local os="unknown" init="unknown"
+  [[ -f /etc/os-release ]] && os="$(. /etc/os-release && echo "${PRETTY_NAME:-$ID}")"
+  [[ -f /etc/alpine-release ]] && init="openrc"
+  command -v systemctl &>/dev/null && init="systemd"
+  echo "proxmox-helper $(print_version)"
+  echo "os:        ${os}"
+  echo "arch:      $(uname -m)"
+  echo "init:      ${init}"
+  echo "root:      $([[ "$(id -u)" -eq 0 ]] && echo yes || echo no)"
+  echo "pve host:  $(command -v pveversion &>/dev/null && echo yes || echo no)"
+  echo "docker:    $(command -v docker &>/dev/null && docker --version | cut -d' ' -f3 | tr -d ',' || echo missing)"
+  echo "compose:   $(docker compose version --short 2>/dev/null || echo missing)"
+  echo "curl:      $(command -v curl &>/dev/null && echo yes || echo missing)"
+  echo "jq:        $(command -v jq &>/dev/null && echo yes || echo missing)"
+  echo "updates:   $(find /usr/local/bin -maxdepth 1 -name 'update_*' 2>/dev/null | wc -l | tr -d ' ') update script(s)"
 }
 
 update_all() {
@@ -60,6 +79,7 @@ main() {
   run) run_addon_script "$@" ;;
   update) run_addon_script "$1" --update ;;
   update-all) update_all ;;
+  doctor) doctor ;;
   version) print_version ;;
   help | -h | --help) usage ;;
   *)
