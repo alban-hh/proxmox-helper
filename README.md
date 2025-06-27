@@ -25,6 +25,14 @@ pxh list
 pxh run dockge
 ```
 
+## Requirements
+
+- Root inside the container, or on the host for the host tools.
+- `curl`. Every script installs it first when it is missing.
+- Debian 12 or newer, Ubuntu 22.04 or newer, or Alpine 3.19 or newer inside
+  the container. Proxmox VE 8 or newer on the host.
+- amd64 or arm64.
+
 ## How it works
 
 Every addon is a single file in `addons/` that sources the shared library in
