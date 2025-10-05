@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add SparkyFitness Garmin addon.
+
 ## 0.1.0
 
 First public cut.

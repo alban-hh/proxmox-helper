@@ -112,6 +112,7 @@ you can see at a glance which containers carry a VPN client.
 | `olivetin` | OliveTin action runner | 1337 |
 | `homebrew` | Linuxbrew for the first regular user on the box | - |
 | `immich-public-proxy` | Public sharing proxy for a local Immich | 3000 |
+| `sparkyfitness-garmin` | Garmin sync microservice for SparkyFitness | 8000 |
 | `all-templates` | Creates a plain container from any template Proxmox offers (host) | - |
 
 ## Flags
