@@ -55,6 +55,7 @@ tool is already there, and offers install, update or remove. Pass
 | --- | --- | --- |
 | `portainer` | Portainer CE via Compose, handles standalone installs too | 9443 |
 | `dockge` | Dockge with a stacks directory in `/opt/stacks` | 5001 |
+| `arcane` | Arcane Docker manager with generated secrets | 3552 |
 | `komodo` | Komodo core with MongoDB or FerretDB | 9120 |
 | `coolify` | Coolify through the upstream installer | 8000 |
 | `dokploy` | Dokploy through the upstream installer | 3000 |

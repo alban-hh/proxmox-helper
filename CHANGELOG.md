@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add SparkyFitness Garmin addon.
+- Add Arcane addon.
 
 ## 0.1.0
 
