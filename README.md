@@ -110,6 +110,7 @@ you can see at a glance which containers carry a VPN client.
 | `webmin` | Webmin from the latest release | 10000 |
 | `phpmyadmin` | phpMyAdmin behind Apache (Debian) or Lighttpd (Alpine) | 80 |
 | `coder-code-server` | VS Code in the browser | 8680 |
+| `cronmaster` | CronMaster scheduler with a generated password | 3000 |
 | `olivetin` | OliveTin action runner | 1337 |
 | `homebrew` | Linuxbrew for the first regular user on the box | - |
 | `immich-public-proxy` | Public sharing proxy for a local Immich | 3000 |

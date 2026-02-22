@@ -14,7 +14,7 @@ servers, the Go exporters, Glances, Docker-based addons and AdGuardHome
 Sync.
 
 **Where do generated passwords go?**
-Printed once at the end of the install and, for Komodo and
+Printed once at the end of the install and, for CronMaster, Komodo and
 Jellystat, also written to a `.creds` file in root's home.
 
 **The GitHub API says rate limited.**

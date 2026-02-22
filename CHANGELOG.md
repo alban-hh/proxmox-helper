@@ -4,6 +4,7 @@
 
 - Add SparkyFitness Garmin addon.
 - Add Arcane addon.
+- Add CronMaster addon.
 
 ## 0.1.0
 
