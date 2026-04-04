@@ -59,9 +59,8 @@ choose_database() {
 write_env() {
   local admin_password="$1"
   curl -fsSL "${UPSTREAM}/compose.env" -o "$COMPOSE_ENV"
-  sed -i "s/^KOMODO_DB_USERNAME=.*/KOMODO_DB_USERNAME=komodo_admin/" "$COMPOSE_ENV"
-  sed -i "s/^KOMODO_DB_PASSWORD=.*/KOMODO_DB_PASSWORD=$(random_alnum 24)/" "$COMPOSE_ENV"
-  sed -i "s/^KOMODO_PASSKEY=.*/KOMODO_PASSKEY=$(random_alnum 32)/" "$COMPOSE_ENV"
+  sed -i "s/^KOMODO_DATABASE_USERNAME=.*/KOMODO_DATABASE_USERNAME=komodo_admin/" "$COMPOSE_ENV"
+  sed -i "s/^KOMODO_DATABASE_PASSWORD=.*/KOMODO_DATABASE_PASSWORD=$(random_alnum 24)/" "$COMPOSE_ENV"
   sed -i "s/^KOMODO_INIT_ADMIN_PASSWORD=.*/KOMODO_INIT_ADMIN_PASSWORD=${admin_password}/" "$COMPOSE_ENV"
   sed -i "s/^KOMODO_WEBHOOK_SECRET=.*/KOMODO_WEBHOOK_SECRET=$(random_alnum 32)/" "$COMPOSE_ENV"
   sed -i "s/^KOMODO_JWT_SECRET=.*/KOMODO_JWT_SECRET=$(random_alnum 32)/" "$COMPOSE_ENV"
@@ -98,6 +97,14 @@ install() {
   msg_note "Credentials saved to ~/komodo.creds"
 }
 
+migrate_env() {
+  sed -i 's/^COMPOSE_KOMODO_IMAGE_TAG=latest/COMPOSE_KOMODO_IMAGE_TAG=2/' "$COMPOSE_ENV"
+  sed -i 's/^KOMODO_DB_USERNAME=/KOMODO_DATABASE_USERNAME=/;s/^KOMODO_DB_PASSWORD=/KOMODO_DATABASE_PASSWORD=/' "$COMPOSE_ENV"
+  sed -i '/^KOMODO_PASSKEY=/d' "$COMPOSE_ENV"
+  grep -q 'PERIPHERY_CORE_PUBLIC_KEYS' "$COMPOSE_ENV" || echo 'PERIPHERY_CORE_PUBLIC_KEYS=file:/config/keys/core.pub' >>"$COMPOSE_ENV"
+  grep -q 'COMPOSE_KOMODO_BACKUPS_PATH=' "$COMPOSE_ENV" || echo 'COMPOSE_KOMODO_BACKUPS_PATH=/etc/komodo/backups' >>"$COMPOSE_ENV"
+}
+
 update() {
   local stamp backup
   find_compose_file
@@ -112,6 +119,7 @@ update() {
     msg_error "Failed to download the latest compose file."
     exit 115
   fi
+  migrate_env
   komodo_compose pull
   komodo_compose up -d
   msg_ok "Updated ${APP}"

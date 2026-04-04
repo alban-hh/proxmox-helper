@@ -5,6 +5,7 @@
 - Add SparkyFitness Garmin addon.
 - Add Arcane addon.
 - Add CronMaster addon.
+- Move Komodo to the v2 environment layout during updates.
 
 ## 0.1.0
 
