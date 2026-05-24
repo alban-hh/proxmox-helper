@@ -37,15 +37,28 @@ build_app() {
 }
 
 write_config() {
-  local base_url username password
+  local base_url api_key
   base_url="$(ask_required "qBittorrent URL (e.g. http://127.0.0.1:8080)")"
-  username="$(ask "qBittorrent username" "admin")"
-  password="$(ask_secret "qBittorrent password")"
-  printf 'QBITTORRENT_BASE_URL="%s"
-QBITTORRENT_USERNAME="%s"
-QBITTORRENT_PASSWORD="%s"
-' "$base_url" "$username" "$password" >"$CONFIG_PATH"
+  msg_note "Create an API key in qBittorrent under Tools > Options > Web UI > API key."
+  api_key="$(ask_required "qBittorrent API key")"
+  printf 'QBITTORRENT_BASE_URL="%s"\nQBITTORRENT_API_KEY="%s"\n' "$base_url" "$api_key" >"$CONFIG_PATH"
   chmod 600 "$CONFIG_PATH"
+}
+
+migrate_to_api_key() {
+  grep -q "QBITTORRENT_API_KEY" "$CONFIG_PATH" 2>/dev/null && return 0
+  [[ "$(printf '%s\n' "2.0.0" "$RELEASE_VERSION" | sort -V | tail -n1)" == "$RELEASE_VERSION" ]] || return 0
+  local api_key
+  msg_warn "Version 2.0.0 replaced username/password login with an API key."
+  msg_note "Create one in qBittorrent under Tools > Options > Web UI > API key."
+  api_key="$(ask "qBittorrent API key (empty to abort)" "")"
+  if [[ -z "$api_key" ]]; then
+    msg_warn "No API key provided, update aborted."
+    exit 0
+  fi
+  sed -i '/^QBITTORRENT_USERNAME=/d;/^QBITTORRENT_PASSWORD=/d' "$CONFIG_PATH"
+  printf 'QBITTORRENT_API_KEY="%s"\n' "$api_key" >>"$CONFIG_PATH"
+  msg_ok "Saved API key"
 }
 
 create_service() {
@@ -107,6 +120,7 @@ install() {
 
 update() {
   gh_release_available "qbittorrent-exporter" "$RELEASE_REPO" || return 0
+  migrate_to_api_key
   msg_info "Updating ${APP}"
   stop_service "$SERVICE_NAME"
   deploy_release

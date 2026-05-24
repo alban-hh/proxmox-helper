@@ -6,6 +6,7 @@
 - Add Arcane addon.
 - Add CronMaster addon.
 - Move Komodo to the v2 environment layout during updates.
+- Switch the qBittorrent exporter to API key authentication.
 
 ## 0.1.0
 
