@@ -6,6 +6,8 @@
 
 Bash scripts that install, update and remove self-hosted tools inside Proxmox LXC containers. Each addon is one file, asks the minimum number of questions and prints the URL when it is done.
 
+I wrote these for my own homelab after typing the same twenty commands one too many times. If they save you an evening, that was the point.
+
 ## Quick start
 
 Run any addon straight from the repo inside the container:
